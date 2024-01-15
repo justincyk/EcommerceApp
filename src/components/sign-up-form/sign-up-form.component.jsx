@@ -1,13 +1,16 @@
-import "./sign-up-form.styles.scss";
+import { useState, useContext } from "react";
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 
-import { useState } from "react";
+// import { UserContext } from "../../contexts/user.context";
+
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
+
+import "./sign-up-form.styles.scss";
 
 const defaultFormFields = {
   displayName: "",
@@ -19,6 +22,11 @@ const defaultFormFields = {
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
+
+  // Everytime this UserContext changes, this function will rerun the function but not rerender anything to the DOM unless
+  // your JSX values update based on these values
+  // const val = useContext(UserContext);
+  // const { setCurrentUser } = useContext(UserContext);
 
   const resetFields = () => {
     setFormFields(defaultFormFields);
@@ -37,7 +45,7 @@ const SignUpForm = () => {
         password
       );
 
-      createUserDocumentFromAuth(user, { displayName });
+      await createUserDocumentFromAuth(user, { displayName });
 
       resetFields();
     } catch (error) {
@@ -80,19 +88,19 @@ const SignUpForm = () => {
 
         <FormInput
           label="Password"
-          type="text"
+          type="password"
           required
           onChange={handleChange}
-          name="displayName"
+          name="password"
           value={password}
         />
 
         <FormInput
           label="Confirm Password"
-          type="text"
+          type="password"
           required
           onChange={handleChange}
-          name="displayName"
+          name="confirmPassword"
           value={confirmPassword}
         />
 

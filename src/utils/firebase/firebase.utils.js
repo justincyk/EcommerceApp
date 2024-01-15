@@ -7,6 +7,8 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -78,3 +80,11 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
   return await signInWithEmailAndPassword(auth, email, password);
 };
+
+// auth keeps track of what user is signed in, so we pass it to sign them out
+export const signOutUser = async () => await signOut(auth);
+
+// is a listener. It will return whatever you get back from onauthstatechanged. Takes 2 arguments. The auth and the callback
+// you want to call whenever the auth changes. We are gonna pass in a callback function whenever we instantiate the function.
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);
