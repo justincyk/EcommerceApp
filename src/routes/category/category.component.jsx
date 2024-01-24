@@ -7,7 +7,7 @@ import { CategoriesContext } from "../../contexts/categories.context";
 
 import ProductCard from "../../components/product-card/product-card.components";
 
-import "./category.styles.scss";
+import { CategoryTitle, CategoryContainer } from "./category.styles";
 
 const Category = () => {
   const { category } = useParams();
@@ -20,8 +20,8 @@ const Category = () => {
 
   return (
     <Fragment>
-      <h2 className="category-title">{category.toUpperCase()}</h2>
-      <div className="category-container">
+      <CategoryTitle>{category.toUpperCase()}</CategoryTitle>
+      <CategoryContainer>
         {/* Only render products if products is defined. A safeguard as categoriesMap object is retrieved from an async function. */}
         {/* If you have components that rely on a async fetched code, then you need to put in safeguards
         so that you only render your components only if the actual data is present*/}
@@ -29,7 +29,7 @@ const Category = () => {
           products.map((product) => {
             return <ProductCard key={product.id} product={product} />;
           })}
-      </div>
+      </CategoryContainer>
     </Fragment>
   );
 };
