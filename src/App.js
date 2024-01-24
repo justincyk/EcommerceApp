@@ -12,7 +12,8 @@ const App = () => {
       <Route path="/" element={<Navigation />}>
         {/* index is default true. What we are saying is make Home component the default for / and to render it with the "/" path in Outlet */}
         <Route index element={<Home />} />
-        <Route path="shop" element={<Shop />} />
+        {/* /* makes shop nestable. Match shop with anything. Shop will have its own routes */}
+        <Route path="shop/*" element={<Shop />} />
         <Route path="auth" element={<Authentication />} />
         <Route path="checkout" element={<Checkout />} />
       </Route>
