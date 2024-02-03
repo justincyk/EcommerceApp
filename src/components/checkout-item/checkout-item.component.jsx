@@ -32,7 +32,7 @@ const CheckoutItem = ({ cartItem }) => {
   return (
     <CheckoutItemContainer>
       <ImageContainer>
-        <img src={imageUrl} alt={name} srcset="" />
+        <img src={imageUrl} alt={name} />
       </ImageContainer>
       <Name>{name}</Name>
       <Quantity>

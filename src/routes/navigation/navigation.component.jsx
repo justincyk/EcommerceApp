@@ -1,12 +1,13 @@
 import { Fragment, useContext } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
-import { UserContext } from "../../contexts/user.context";
 import { CartContext } from "../../contexts/cart.context";
+import { selectCurrentUser } from "../../store/user/user.selector.js";
 
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 
@@ -18,7 +19,13 @@ import {
 } from "./navigation.styles.jsx";
 
 const Navigation = () => {
-  const { currentUser } = useContext(UserContext);
+  // a hook where you pass a selector function that is essentially a function that allows you to extract the values you want from the whole entire redux store
+  // we receive inside our selector function the entire state object
+  // selector updates whenever the state object changes by reference due to redux
+  // currentUser is being referenced using the useSelector hook
+  // everytime we update any of our reducer values, we always return a brand new state object with the changed values
+  // react will then rerender the component below
+  const currentUser = useSelector(selectCurrentUser);
   const { isCartOpen } = useContext(CartContext);
 
   return (
