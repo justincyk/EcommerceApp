@@ -10,13 +10,16 @@ import { CategoryTitle, CategoryContainer } from "./category.styles";
 
 const Category = () => {
   const { category } = useParams();
+  console.log("category component rendered");
   const categoriesMap = useSelector(selectCategoriesMap);
+  //  categoriesMap[category] will be initially an empty object so we can assign it to products
   const [products, setProducts] = useState(categoriesMap[category]);
 
   useEffect(() => {
     setProducts(categoriesMap[category]);
+    console.log("useEffect category ran");
+    console.log(`products is set to: ${products}`);
   }, [category, categoriesMap]);
-
   return (
     <Fragment>
       <CategoryTitle>{category.toUpperCase()}</CategoryTitle>
