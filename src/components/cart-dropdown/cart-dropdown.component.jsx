@@ -1,7 +1,5 @@
-import { useContext } from "react";
+import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { CartContext } from "../../contexts/cart.context";
 
 import Button from "../button/button.component";
 
@@ -12,21 +10,32 @@ import {
   CartItems,
   EmptyMessage,
 } from "./cart.dropdown.styles.jsx";
+import {
+  selectCartItems,
+  selectIsCartOpen,
+} from "../../store/cart/cart.selector.js";
+import useComponentVisible from "../../customHooks/useComponentVisible.js";
 
-const CartDropdown = () => {
-  const { cartItems } = useContext(CartContext);
+import { useDispatch, useSelector } from "react-redux";
+import { setIsCartOpen } from "../../store/cart/cart.action.js";
+
+const CartDropdown = forwardRef((props, ref) => {
+  const cartItems = useSelector(selectCartItems);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const goToCheckoutHandler = () => {
+    dispatch(setIsCartOpen(false));
     navigate("/checkout");
   };
 
   return (
-    <CartDropdownContainer>
+    <CartDropdownContainer ref={ref}>
       <CartItems>
         {cartItems.length ? (
           cartItems.map((item) => {
-            return <CartItem cartItem={item} key={item.key} />;
+            return <CartItem cartItem={item} key={item.name} />;
           })
         ) : (
           <EmptyMessage>Your cart is empty</EmptyMessage>
@@ -35,6 +44,6 @@ const CartDropdown = () => {
       <Button onClick={goToCheckoutHandler}>Go To Checkout</Button>
     </CartDropdownContainer>
   );
-};
+});
 
 export default CartDropdown;
