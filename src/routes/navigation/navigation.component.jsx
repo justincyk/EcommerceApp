@@ -8,6 +8,8 @@ import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
 import { selectCurrentUser } from "../../store/user/user.selector.js";
 
+import useComponentVisible from "../../customHooks/useComponentVisible.js";
+
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 
 import {
@@ -27,6 +29,8 @@ const Navigation = () => {
   // react will then rerender the component below
   const currentUser = useSelector(selectCurrentUser);
   const isCartOpen = useSelector(selectIsCartOpen);
+
+  const { ref, isComponentVisible } = useComponentVisible(isCartOpen);
 
   return (
     <Fragment>

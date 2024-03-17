@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Button from "../button/button.component";
@@ -9,21 +10,28 @@ import {
   CartItems,
   EmptyMessage,
 } from "./cart.dropdown.styles.jsx";
-import { selectCartItems } from "../../store/cart/cart.selector.js";
+import {
+  selectCartItems,
+  selectIsCartOpen,
+} from "../../store/cart/cart.selector.js";
+import useComponentVisible from "../../customHooks/useComponentVisible.js";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsCartOpen } from "../../store/cart/cart.action.js";
 
-const CartDropdown = () => {
+const CartDropdown = forwardRef((props, ref) => {
   const cartItems = useSelector(selectCartItems);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const goToCheckoutHandler = () => {
+    dispatch(setIsCartOpen(false));
     navigate("/checkout");
   };
 
   return (
-    <CartDropdownContainer>
+    <CartDropdownContainer ref={ref}>
       <CartItems>
         {cartItems.length ? (
           cartItems.map((item) => {
@@ -36,6 +44,6 @@ const CartDropdown = () => {
       <Button onClick={goToCheckoutHandler}>Go To Checkout</Button>
     </CartDropdownContainer>
   );
-};
+});
 
 export default CartDropdown;

@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from "./store/store";
+import { persistor, store } from "./store/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 import App from "./App";
 
@@ -15,9 +16,12 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      {/* PersistGate allows the delaying of rendering of the UI until persisted state can be retrieved and save to redux */}
+      <PersistGate persistor={persistor}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
