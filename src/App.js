@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import {
   onAuthStateChangedListener,
   createUserDocumentFromAuth,
+  getCurrentUser,
 } from "./utils/firebase/firebase.utils";
 
 import Navigation from "./routes/navigation/navigation.component";
@@ -20,18 +21,18 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // user is either the authenticated user or null if there's no signed in user
-    const unsubscribe = onAuthStateChangedListener((user) => {
-      if (user) {
-        createUserDocumentFromAuth(user);
-      }
-      // setCurrentUser only creates an object for us which is our action object
-      // We then pass the result to dispatch which dispatches our actions to the root reducer which in turn passes the action
-      // to every reducer function
-      dispatch(setCurrentUser(user));
-    });
-
-    return unsubscribe;
+    // // user is either the authenticated user or null if there's no signed in user
+    // const unsubscribe = onAuthStateChangedListener((user) => {
+    //   if (user) {
+    //     createUserDocumentFromAuth(user);
+    //   }
+    //   // setCurrentUser only creates an object for us which is our action object
+    //   // We then pass the result to dispatch which dispatches our actions to the root reducer which in turn passes the action
+    //   // to every reducer function
+    //   dispatch(setCurrentUser(user));
+    // });
+    // return unsubscribe;
+    getCurrentUser().then((user) => console.log(user));
   }, []);
 
   return (

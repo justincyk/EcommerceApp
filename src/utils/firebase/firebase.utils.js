@@ -122,3 +122,16 @@ export const signOutUser = async () => await signOut(auth);
 // you want to call whenever the auth changes. We are gonna pass in a callback function whenever we instantiate the function.
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
+};
